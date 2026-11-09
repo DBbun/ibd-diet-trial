@@ -80,5 +80,6 @@ export function demoBanner(settings, extraClass = '') {
   const text = Number.isInteger(id) && id > 0
     ? `Simulated patient #${id} from the <a href="sim.html#patient-${id}">simulation lab</a>. Not a real person.`
     : 'Simulated demo data. Not a real person.';
-  return `<p class="demo-banner ${extraClass}">${text}</p>`;
+  return `<p class="demo-banner ${extraClass}">${text}
+    <button type="button" class="linklike" data-action="reset-all">Clear it and start my own</button></p>`;
 }

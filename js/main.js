@@ -138,6 +138,18 @@ const actions = {
     location.hash = '#today';
     toast('Your trial is set up.');
   },
+  'reset-all': () => {
+    const demo = !!state.settings?.demo;
+    const msg = demo
+      ? 'Clear the simulated demo data and start your own 12 weeks? Nothing of yours is lost: the demo is not real.'
+      : 'Delete everything you have logged on this phone and start again? This cannot be undone.';
+    if (!confirm(msg)) return;
+    state = store.emptyState();
+    commit();
+    Object.assign(ctx, freshCtx());
+    location.hash = '#today';
+    toast(demo ? 'Demo data cleared.' : 'Everything cleared.');
+  },
   'demo-load': (v) => {
     if (state.settings && !state.settings.demo && Object.keys(state.entries).length &&
       !confirm('Loading demo data replaces your entries on this phone. Continue?')) return;

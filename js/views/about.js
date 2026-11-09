@@ -93,6 +93,7 @@ export function renderAbout(state, ctx = {}) {
         <button type="button" class="btn" data-action="clock" data-value="1">Jump ahead 1 day</button>
         <button type="button" class="btn" data-action="clock" data-value="7">Jump ahead 7 days</button>
         <button type="button" class="btn" data-action="clock" data-value="0">Reset date to today</button>
+        <button type="button" class="btn" data-action="reset-all">Clear all data and start over</button>
       </div>
       ${state.clockOffsetDays ? `<p class="small">Date shifted by ${state.clockOffsetDays} day(s).</p>` : ''}
     </details>
