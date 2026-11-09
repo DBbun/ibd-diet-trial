@@ -3,7 +3,7 @@
 // everything marked "default" is adjustable and not clinically fixed.
 
 export const CONFIG = {
-  appName: 'My IBD Diet Trial',
+  appName: 'My IBD Food Pattern',
 
   // Konijeti 2017: 6-week staged elimination, then 5-week maintenance. Baseline week and reintroduction are
   // additions (baseline gives a real "before"; reintroduction goes beyond the trial and is labeled as such).

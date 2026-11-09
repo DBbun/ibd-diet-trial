@@ -316,10 +316,10 @@ const actions = {
     if (r === 'copied') toast('Copied. Paste it into a message or email.');
   },
   print: () => window.print(),
-  'export-csv': () => download(`ibd-diet-trial-${store.today(state)}.csv`, toCSV(state), 'text/csv'),
-  'export-json': () => download(`ibd-diet-trial-${store.today(state)}.json`,
+  'export-csv': () => download(`ibd-food-pattern-${store.today(state)}.csv`, toCSV(state), 'text/csv'),
+  'export-json': () => download(`ibd-food-pattern-${store.today(state)}.json`,
     JSON.stringify({ exportedAt: new Date().toISOString(), app: CONFIG.appName, format: 1, ...state }, null, 2), 'application/json'),
-  'export-fhir': () => download(`ibd-diet-trial-fhir-${store.today(state)}.json`,
+  'export-fhir': () => download(`ibd-food-pattern-fhir-${store.today(state)}.json`,
     JSON.stringify(toFHIR(state), null, 2), 'application/fhir+json'),
   'delete-all': () => {
     if (!confirm('Delete all your data from this phone? This cannot be undone.')) return;

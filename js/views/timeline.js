@@ -10,7 +10,7 @@ export function renderTimeline(state, todayISO) {
   const end0 = todayISO < trialEnd(settings) ? todayISO : trialEnd(settings);
   const end = diffDays(settings.startDate, end0) < 13 ? addDays(settings.startDate, 13) : end0;
   if (todayISO < settings.startDate) {
-    return `<h1>Timeline</h1><p class="panel">Your trial starts ${esc(formatShort(settings.startDate))}. Entries will appear here.</p>`;
+    return `<h1>Timeline</h1><p class="panel">Your 12 weeks start ${esc(formatShort(settings.startDate))}. Entries will appear here.</p>`;
   }
   const days = rangeISO(settings.startDate, end);
   const recs = days.map((date) => {
@@ -75,7 +75,7 @@ export function renderTimeline(state, todayISO) {
   const fTicks = [0, 5, 10].map((v) => `<text class="tick tick-f" x="${W - R + 6}" y="${yf(v) + 4}">${v}</text>`).join('');
   const xTicks = [[0, 'start'], [n - 1, 'end']].map(([i, anchor]) => `<text class="tick" x="${x(i)}" y="${H - B + 14}" text-anchor="${anchor}">${esc(formatShort(days[i]))}</text>`).join('');
 
-  const svg = `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="${esc(indexName(cond))} and fatigue over the trial">
+  const svg = `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="${esc(indexName(cond))} and fatigue over the 12 weeks">
     ${bands}${threshold}${yTicks}${fTicks}${xTicks}${fatigueLines}${scoreLines}${dots}${meds}${labs}${tests}${rough}
   </svg>`;
 

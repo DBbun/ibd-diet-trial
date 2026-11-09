@@ -28,8 +28,8 @@ export function renderSetup(ctx) {
   let body = '';
   if (s.step === 0) {
     body = `
-      <h1>A personal diet trial for IBD</h1>
-      <p class="lead">This app guides you through a structured Autoimmune Protocol (AIP) diet trial, one step at a time,
+      <h1>Find your own food pattern</h1>
+      <p class="lead">This app guides you through a structured Autoimmune Protocol (AIP) elimination diet, one step at a time,
       and shows what changed for you. Logging takes about 15 seconds a day. Your entries never leave this phone.
       It is free, there is nothing to buy, and there are no ads.</p>
       <p class="fairness">This app is not a medical device and does not give medical advice. It helps you run a
@@ -118,7 +118,7 @@ export function renderSetup(ctx) {
         ${has('celiac') ? '<li><strong>Celiac disease:</strong> keep gluten out for good. Your plan skips the gluten test.</li>' : ''}
         ${has('diabetes') ? '<li><strong>Diabetes:</strong> talk to your care team before you start. Cutting grains and sugar can change your blood sugar.</li>' : ''}
         ${has('ostomy') ? '<li><strong>Ostomy or colectomy:</strong> stool counts may not show your disease activity the same way. Read your results with your care team.</li>' : ''}
-        <li><strong>Don't change your medications</strong> without your care team. This trial is done alongside your usual treatment.</li>
+        <li><strong>Don't change your medications</strong> without your care team. This is done alongside your usual treatment.</li>
         <li><strong>If you have a known stricture</strong> (narrowing), talk to your GI team first. In the study, one person with a stricture had a blockage after eating a lot of raw vegetables.</li>
         <li><strong>Taking steroids now or recently, or told your bones are thin?</strong> Ask your care team about calcium and vitamin D before dairy comes out in week 2.</li>
         <li><strong>If your diet is already limited, or you've lost weight,</strong> talk to a dietitian before starting.</li>
@@ -149,7 +149,7 @@ export function renderSetup(ctx) {
       <p class="small muted">Baseline, elimination and maintenance follow Konijeti et al. 2017 (6-week staged elimination, 5-week maintenance), with a baseline week added so you have a "before".</p>
       <div class="actions">
         <button type="button" class="btn" data-action="setup-back">Back</button>
-        <button type="button" class="btn primary" data-action="setup-finish">Start my trial</button>
+        <button type="button" class="btn primary" data-action="setup-finish">Start my 12 weeks</button>
       </div>`;
   }
   return `<section class="setup">${progress}${body}</section>`;

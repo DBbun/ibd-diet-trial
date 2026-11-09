@@ -119,10 +119,10 @@ export function renderSummary(state, todayISO) {
       <button type="button" class="btn" data-action="export-json">Export JSON</button>
       <button type="button" class="btn" data-action="export-fhir" title="HL7 FHIR R4 format for health records and research systems">Export for health records (FHIR)</button>
     </div>
-    <article class="summary-card" aria-label="Trial summary">
+    <article class="summary-card" aria-label="Diet summary">
       <header>
         <p class="eyebrow">Your personal pattern</p>
-        <h1>AIP diet trial summary</h1>
+        <h1>AIP elimination diet summary</h1>
         <p class="meta">${esc(CONDITIONS[cond].label)} · started ${esc(formatShort(state.settings.startDate))} · as of ${esc(formatLong(todayISO))} · ${s.loggedDays} ${s.loggedDays === 1 ? 'day' : 'days'} logged
         ${state.settings.demo ? ' · <strong>simulated demo data</strong>' : ''}</p>
         ${healthLine(state.settings.health)}

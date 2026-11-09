@@ -61,7 +61,7 @@ function doneCard(state, todayISO) {
     const tNow = testOf(s, todayISO, CONFIG);
     const tNext = testOf(s, tomorrow, CONFIG);
     next = tNext && tNext.index !== tNow.index ? `Tomorrow you start testing <strong>${esc(tNext.food.label.toLowerCase())}</strong>.`
-      : tNext ? `Tomorrow is day 2 of the ${esc(tNow.food.label.toLowerCase())} test.` : 'Tomorrow your trial is complete. See your summary.';
+      : tNext ? `Tomorrow is day 2 of the ${esc(tNow.food.label.toLowerCase())} test.` : 'Tomorrow your 12 weeks are complete. See your summary.';
   } else if (phTomorrow.id !== ph.id && phTomorrow.id !== 'complete') {
     next = `Tomorrow <strong>${esc(phTomorrow.label.toLowerCase())}</strong> begins.`;
   } else if (ph.id === 'elimination' && phTomorrow.dayInPhase % 7 === 1) {

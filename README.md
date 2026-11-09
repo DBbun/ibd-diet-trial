@@ -1,7 +1,7 @@
-# My IBD Diet Trial
+# My IBD Food Pattern
 
 A free, offline-first web app that guides one person through a structured elimination and
-reintroduction diet trial for Crohn's disease or ulcerative colitis, and shows what actually
+reintroduction elimination and reintroduction diet for Crohn's disease or ulcerative colitis, and shows what actually
 changed for them.
 
 - Everything is stored in the browser. There is no account, no server, no analytics, and no

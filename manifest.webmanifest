@@ -1,7 +1,7 @@
 {
-  "name": "My IBD Diet Trial",
-  "short_name": "Diet Trial",
-  "description": "A 15-second-a-day personal AIP diet trial for Crohn's disease and ulcerative colitis. Entries stay on your phone.",
+  "name": "My IBD Food Pattern",
+  "short_name": "Food Pattern",
+  "description": "A 15-second-a-day staged AIP elimination diet for Crohn's disease and ulcerative colitis. Entries stay on your phone.",
   "start_url": "./index.html#today",
   "scope": "./",
   "display": "standalone",
