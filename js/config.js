@@ -139,7 +139,8 @@ export const CONFIG = {
 
   // Activity thresholds used by the trial: HBI >= 5 (CD), partial Mayo >= 3 (UC).
   // Note: the app's UC score is the 2-item patient-reported version (no physician global assessment).
-  activeThreshold: { CD: 5, UC: 3 },
+  // IBD-unclassified uses the HBI item set and therefore the HBI threshold.
+  activeThreshold: { CD: 5, UC: 3, IBDU: 5 },
 
   analysis: {
     compareWindowDays: 7,       // last N days of each phase are compared
@@ -150,19 +151,23 @@ export const CONFIG = {
     complicationsValidDays: 7,  // a weekly HBI complications check applies to the 7 days that follow it
     // Food flag: mean index over the 2-day test window minus the maintenance mean must reach this.
     // Values are provisional; tools/simulate-trials.mjs evaluates them (spec section 6b).
-    flagMinDelta: { CD: 1.5, UC: 1 },
+    flagMinDelta: { CD: 1.5, UC: 1, IBDU: 1.5 },
     flagStat: 'mean',           // 'mean' or 'max' of the test-window days (chosen by simulation, spec 6b)
-    improvedMinDelta: { CD: 2, UC: 1 },
+    improvedMinDelta: { CD: 2, UC: 1, IBDU: 2 },
     // "Time to pause and check in": weight down 5% or more from the first recorded weight (GLIM malnutrition
     // threshold, Cederholm et al. 2019), or a week of symptoms above baseline, or several rough days in a week.
     // The last two are this app's own conservative rules, not published cutoffs.
     // Symptoms: the week's average must rise by a clinically meaningful margin (3 HBI points, the usual threshold for a
     // meaningful change in Crohn's disease; 2 points on the 0-6 colitis score). Smaller margins fired on normal noise in simulation.
-    pause: { weightLossPct: 0.05, windowDays: 7, minLoggedDays: 4, roughDays: 3, snoozeDays: 7, worseDelta: { CD: 3, UC: 2 } },
+    pause: { weightLossPct: 0.05, windowDays: 7, minLoggedDays: 4, roughDays: 3, snoozeDays: 7, worseDelta: { CD: 3, UC: 2, IBDU: 3 } },
   },
 };
 
 export const CONDITIONS = {
   CD: { id: 'CD', label: "Crohn's disease", index: 'HBI', indexLong: "Harvey-Bradshaw Index (patient-reported items)" },
   UC: { id: 'UC', label: 'Ulcerative colitis', index: 'pMayo', indexLong: 'Partial Mayo score (patient-reported items)' },
+  // IBD-unclassified / indeterminate colitis, and anyone who has not been given a settled label.
+  // The Mayo items presume colonic disease (stools above your normal, rectal bleeding); the HBI items
+  // (well-being, abdominal pain, liquid stools) are answerable by anyone with IBD, so this maps to HBI.
+  IBDU: { id: 'IBDU', label: 'IBD, not yet classified', index: 'HBI', indexLong: "Harvey-Bradshaw Index (patient-reported items)" },
 };

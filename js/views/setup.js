@@ -1,4 +1,11 @@
 import { CONFIG, CONDITIONS } from '../config.js';
+
+// What each condition card says it will ask about.
+const CONDITION_BLURB = {
+  CD: 'Tracks well-being, abdominal pain and loose stools (Harvey-Bradshaw Index items).',
+  UC: 'Tracks stool frequency and rectal bleeding (partial Mayo score items).',
+  IBDU: "Including indeterminate colitis, or if you have been told you have IBD but not which kind. Asks the same questions as the Crohn's option.",
+};
 import { phaseBounds } from '../protocol.js';
 import { formatShort } from '../dates.js';
 import { esc } from '../ui.js';
@@ -28,15 +35,19 @@ export function renderSetup(ctx) {
       structured test and record what you notice. Decisions about your treatment stay with you and your care team.</p>
       <h2 class="h3">Which condition do you have?</h2>
       <div class="cards">
-        ${['CD', 'UC'].map((id) => `
+        ${['CD', 'UC', 'IBDU'].map((id) => `
           <button type="button" class="card-choice${s.condition === id ? ' is-on' : ''}" aria-pressed="${s.condition === id}"
             data-action="setup-condition" data-value="${id}">
             <strong>${esc(CONDITIONS[id].label)}</strong>
-            <span>${id === 'CD'
-              ? 'Tracks well-being, abdominal pain and loose stools (Harvey-Bradshaw Index items).'
-              : 'Tracks stool frequency and rectal bleeding (partial Mayo score items).'}</span>
+            <span>${esc(CONDITION_BLURB[id])}</span>
           </button>`).join('')}
       </div>
+      ${s.condition === 'IBDU' ? `
+        <p class="hint">You will be asked about your general well-being, belly pain and how many loose stools you
+        have had. Those questions come from the Harvey-Bradshaw Index, which was written for Crohn's disease, and
+        they are the ones that work whatever kind of IBD you have. The number the app shows you is there to track
+        whether things changed for you over the twelve weeks. It is not a diagnosis and it does not decide which
+        condition you have.</p>` : ''}
       <div class="actions">
         <button type="button" class="btn primary" data-action="setup-next" ${s.condition ? '' : 'disabled'}>Continue</button>
       </div>

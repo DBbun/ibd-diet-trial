@@ -6,12 +6,18 @@
 // The condition uses ICD-10 (K50 Crohn disease, K51 ulcerative colitis). LOINC has no codes for the
 // patient-reported HBI / partial Mayo items used here, so those use this app's own code system, labeled as such.
 import { CONFIG, CONDITIONS } from './config.js';
-import { dailyScore, indexName } from './scoring.js';
+import { dailyScore, indexName, usesHBI } from './scoring.js';
 
 export const APP_CODES = 'urn:dbbun:ibd-diet-trial:codes';
 const LOINC = 'http://loinc.org';
 const UCUM = 'http://unitsofmeasure.org';
 const ICD10 = 'http://hl7.org/fhir/sid/icd-10';
+// K52.3 is the ICD-10 code for indeterminate colitis, which is where IBD-unclassified maps.
+const ICD10_FOR = {
+  CD: { code: 'K50', display: 'Crohn disease [regional enteritis]' },
+  UC: { code: 'K51', display: 'Ulcerative colitis' },
+  IBDU: { code: 'K52.3', display: 'Indeterminate colitis' },
+};
 const CATEGORY = 'http://terminology.hl7.org/CodeSystem/observation-category';
 
 const LAB_CODES = {
@@ -66,9 +72,7 @@ export function toFHIR(state, { exportedAt = new Date().toISOString() } = {}) {
     subject,
     clinicalStatus: { coding: [{ system: 'http://terminology.hl7.org/CodeSystem/condition-clinical', code: 'active' }] },
     code: {
-      coding: [s.condition === 'CD'
-        ? { system: ICD10, code: 'K50', display: 'Crohn disease [regional enteritis]' }
-        : { system: ICD10, code: 'K51', display: 'Ulcerative colitis' }],
+      coding: [ICD10_FOR[s.condition] ? { system: ICD10, ...ICD10_FOR[s.condition] } : { system: ICD10, code: 'K51', display: 'Ulcerative colitis' }],
       text: CONDITIONS[s.condition].label,
     },
     ...(s.health?.dxYear ? { onsetDateTime: String(s.health.dxYear) } : {}),
@@ -83,13 +87,13 @@ export function toFHIR(state, { exportedAt = new Date().toISOString() } = {}) {
     const e = state.entries[date];
     if (e.wellbeing != null) obs(date, cc('wellbeing'), { valueInteger: e.wellbeing });
     if (e.pain != null) obs(date, cc('pain'), { valueInteger: e.pain });
-    if (e.stools != null) obs(date, cc(s.condition === 'CD' ? 'liquidStools' : 'stools'), { valueInteger: e.stools });
+    if (e.stools != null) obs(date, cc(usesHBI(s.condition) ? 'liquidStools' : 'stools'), { valueInteger: e.stools });
     if (e.bleeding != null) obs(date, cc('bleeding'), { valueInteger: e.bleeding });
     if (e.fatigue != null) obs(date, cc('fatigue'), { valueInteger: e.fatigue });
     if (e.rough) obs(date, cc('roughDay'), { valueBoolean: true });
     const score = dailyScore(e, s, state.weekly, CONFIG);
     if (score) {
-      const code = s.condition === 'CD' ? 'phbi' : 'pmayo';
+      const code = usesHBI(s.condition) ? 'phbi' : 'pmayo';
       obs(date, cc(code), { valueInteger: score.score }, 'survey', {
         note: [{ text: `${indexName(s.condition)} computed by the app from the patient's answers; not a clinician-assessed index.` }],
       });
@@ -105,7 +109,7 @@ export function toFHIR(state, { exportedAt = new Date().toISOString() } = {}) {
     if (e.note) obs(date, cc('patientNote'), { valueString: e.note });
   }
 
-  for (const w of state.weekly || []) obs(w.date, cc(s.condition === 'CD' ? 'hbiComplications' : 'otherSymptoms'), { valueInteger: w.items.length }, 'survey',
+  for (const w of state.weekly || []) obs(w.date, cc(usesHBI(s.condition) ? 'hbiComplications' : 'otherSymptoms'), { valueInteger: w.items.length }, 'survey',
     w.items.length ? { component: w.items.map((k) => ({ code: { text: CONFIG.hbiComplications[k] || k }, valueBoolean: true })) } : {});
 
   for (const l of state.labs || []) {

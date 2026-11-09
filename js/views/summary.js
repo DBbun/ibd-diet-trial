@@ -1,7 +1,7 @@
 import { CONFIG, CONDITIONS } from '../config.js';
 import { summarize, FACTOR_KEYS } from '../analysis.js';
 import { formatShort, formatLong } from '../dates.js';
-import { indexName } from '../scoring.js';
+import { indexName, usesHBI } from '../scoring.js';
 import { esc, demoBanner, fmt, pct, labName, labUnit } from '../ui.js';
 import { FAIRNESS_LINE } from './setup.js';
 
@@ -35,7 +35,7 @@ function otherSymptoms(state) {
   const rows = Object.entries(counts).sort((a, b) => b[1] - a[1])
     .map(([k, n]) => `<li>${esc(CONFIG.hbiComplications[k] || k)}: reported in ${n} ${n === 1 ? 'week' : 'weeks'}</li>`);
   return `<h3>Other symptoms reported</h3><ul>${rows.join('')}</ul>
-    <p class="small muted">From the weekly check${state.settings.condition === 'CD' ? '' : '. These are not part of the colitis score'}.</p>`;
+    <p class="small muted">From the weekly check${usesHBI(state.settings.condition) ? '' : '. These are not part of the colitis score'}.</p>`;
 }
 
 function weightLine(state) {
@@ -140,7 +140,7 @@ export function renderSummary(state, todayISO) {
       ${experiences}
       <footer>
         <p><strong>This is your personal pattern. It is not a diagnosis.</strong> Talk with your care team before you change your diet or treatment.</p>
-        <p class="small">${esc(idxLabel)}: ${cond === 'CD'
+        <p class="small">${esc(idxLabel)}: ${usesHBI(cond)
           ? 'well-being, belly pain, loose stools and complications, from the Harvey-Bradshaw Index. It leaves out one item (abdominal mass) that needs a doctor\'s exam, so it is not the full index. In weeks without a weekly check, complications count as 0.'
           : 'how often you go and any bleeding, from the Mayo score. It leaves out the doctor\'s items, so it is not the full score. It runs from 0 to 6.'}
           Averages use only the days you logged. Missing days are never filled in. Comparisons need at least ${CONFIG.analysis.minLoggedDays} logged days.</p>

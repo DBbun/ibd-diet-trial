@@ -1,7 +1,7 @@
 import { CONFIG } from '../config.js';
 import { phaseBounds, phaseOf, trialEnd, testOf } from '../protocol.js';
 import { rangeISO, formatShort, addDays, diffDays } from '../dates.js';
-import { dailyScore, indexName } from '../scoring.js';
+import { dailyScore, indexName, usesHBI } from '../scoring.js';
 import { esc, demoBanner, labName, labUnit } from '../ui.js';
 
 export function renderTimeline(state, todayISO) {
@@ -22,7 +22,7 @@ export function renderTimeline(state, todayISO) {
   const W = 360, H = 220, L = 24, R = 24, T = 24, B = 22;
   const n = days.length;
   const x = (i) => L + (n === 1 ? 0 : (i * (W - L - R)) / (n - 1));
-  const maxScore = cond === 'CD' ? Math.max(12, ...recs.map((r) => r.score ?? 0)) : 6;
+  const maxScore = usesHBI(cond) ? Math.max(12, ...recs.map((r) => r.score ?? 0)) : 6;
   const y = (v) => T + (1 - v / maxScore) * (H - T - B);
   const yf = (v) => T + (1 - v / 10) * (H - T - B);
   const idx = (date) => diffDays(settings.startDate, date);
@@ -70,7 +70,7 @@ export function renderTimeline(state, todayISO) {
     return t && t.cycleDay === 1 ? `<g class="test-mark"><line x1="${x(i)}" x2="${x(i)}" y1="${H - B}" y2="${H - B + 4}"></line><title>Test: ${esc(t.food.label)}</title></g>` : '';
   }).join('');
 
-  const yTicks = (cond === 'CD' ? [0, 4, 8, 12] : [0, 2, 4, 6]).filter((v) => v <= maxScore)
+  const yTicks = (usesHBI(cond) ? [0, 4, 8, 12] : [0, 2, 4, 6]).filter((v) => v <= maxScore)
     .map((v) => `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`).join('');
   const fTicks = [0, 5, 10].map((v) => `<text class="tick tick-f" x="${W - R + 6}" y="${yf(v) + 4}">${v}</text>`).join('');
   const xTicks = [[0, 'start'], [n - 1, 'end']].map(([i, anchor]) => `<text class="tick" x="${x(i)}" y="${H - B + 14}" text-anchor="${anchor}">${esc(formatShort(days[i]))}</text>`).join('');

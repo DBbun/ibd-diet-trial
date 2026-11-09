@@ -2,7 +2,7 @@ import { CONFIG, CONDITIONS } from '../config.js';
 import { phaseOf, avoidList, testOf, phaseBounds } from '../protocol.js';
 import { addDays, formatLong, formatShort, rangeISO } from '../dates.js';
 import { pauseSignals } from '../analysis.js';
-import { complicationsFor, dailyScore, indexName } from '../scoring.js';
+import { complicationsFor, dailyScore, indexName, usesHBI } from '../scoring.js';
 import { esc, fmt, demoBanner, choiceRow, chipGroup, labName, labUnit } from '../ui.js';
 
 const WELLBEING = ['Very well', 'Slightly below par', 'Poor', 'Very poor', 'Terrible'];
@@ -163,7 +163,7 @@ function weeklyCard(state, ctx, date) {
   const w = ctx.weeklyDraft;
   return `<section class="panel weekly">
     <h2 class="h3">Weekly check <span class="muted small">about 20 seconds</span></h2>
-    <p class="hint">In the past week, have you had any of these? ${state.settings.condition === 'CD'
+    <p class="hint">In the past week, have you had any of these? ${usesHBI(state.settings.condition)
       ? '(Harvey-Bradshaw Index complications, 1 point each.)'
       : 'They are not part of the colitis score, but they are kept for your summary and your care team.'}</p>
     <div class="chips">
@@ -287,7 +287,7 @@ export function renderToday(state, ctx, todayISO) {
     <button type="button" class="btn round ghost" data-action="date-shift" data-delta="1" aria-label="Next day" ${date >= todayISO ? 'disabled' : ''}>›</button>
   </div>`;
 
-  const symptoms = cond === 'CD'
+  const symptoms = usesHBI(cond)
     ? [
       choiceRow({ field: 'wellbeing', legend: 'General well-being', options: WELLBEING.map((label, value) => ({ label, value })), value: d.wellbeing }),
       choiceRow({ field: 'pain', legend: 'Abdominal pain', options: PAIN.map((label, value) => ({ label, value })), value: d.pain }),
