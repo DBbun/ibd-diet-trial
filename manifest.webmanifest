@@ -1,0 +1,15 @@
+{
+  "name": "My IBD Diet Trial",
+  "short_name": "Diet Trial",
+  "description": "A 15-second-a-day personal AIP diet trial for Crohn's disease and ulcerative colitis. Entries stay on your phone.",
+  "start_url": "./index.html#today",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f5",
+  "theme_color": "#0f6e6e",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
