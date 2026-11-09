@@ -1,5 +1,5 @@
 // Offline support: cache the app shell. The app never makes other network requests.
-const VERSION = 'offline-v5';
+const VERSION = 'offline-v6';
 const SHELL = [
   './', './index.html', './manifest.webmanifest', './css/app.css',
   './js/main.js', './js/config.js', './js/dates.js', './js/protocol.js', './js/scoring.js', './js/analysis.js',
@@ -7,6 +7,7 @@ const SHELL = [
   './sim.html', './js/sim-page.js', './js/population.js', './js/evaluate.js',
   './js/views/setup.js', './js/views/today.js', './js/views/timeline.js', './js/views/summary.js', './js/views/about.js',
   './icons/icon.svg', './icons/icon-180.png', './icons/icon-192.png', './icons/icon-512.png',
+  './fonts/ibm-plex-sans-latin.woff2', './fonts/source-serif-4-latin.woff2',
 ];
 
 self.addEventListener('install', (e) => {
