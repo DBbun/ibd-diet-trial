@@ -1,5 +1,5 @@
 // Offline support: cache the app shell. The app never makes other network requests.
-const VERSION = 'offline-v9';
+const VERSION = 'offline-v10';
 const SHELL = [
   './', './index.html', './manifest.webmanifest', './css/app.css',
   './js/main.js', './js/config.js', './js/dates.js', './js/protocol.js', './js/scoring.js', './js/analysis.js',
