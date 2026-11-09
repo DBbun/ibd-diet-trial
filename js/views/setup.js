@@ -30,7 +30,8 @@ export function renderSetup(ctx) {
     body = `
       <h1>A personal diet trial for IBD</h1>
       <p class="lead">This app guides you through a structured Autoimmune Protocol (AIP) diet trial, one step at a time,
-      and shows what changed for you. Logging takes about 15 seconds a day. Your entries never leave this phone.</p>
+      and shows what changed for you. Logging takes about 15 seconds a day. Your entries never leave this phone.
+      It is free, there is nothing to buy, and there are no ads.</p>
       <p class="fairness">This app is not a medical device and does not give medical advice. It helps you run a
       structured test and record what you notice. Decisions about your treatment stay with you and your care team.</p>
       <h2 class="h3">Which condition do you have?</h2>

@@ -69,6 +69,7 @@ export function renderAbout(state, ctx = {}) {
       <h2 class="h3">Your privacy</h2>
       <p><strong>Your entries never leave this phone.</strong> They are stored only in this browser. The app sends nothing anywhere,
       uses no analytics, and has no account. It works offline.</p>
+      <p><strong>It is free.</strong> There is nothing to buy, now or later, and there are no ads.</p>
       <p>If you choose to share, export your data and send the file yourself.</p>
       <div class="actions left">
         <button type="button" class="btn" data-action="export-csv">Export CSV</button>
