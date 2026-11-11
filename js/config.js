@@ -5,6 +5,10 @@
 export const CONFIG = {
   appName: 'My IBD Food Pattern',
 
+  // Where feedback goes if the person chooses to send it. Shown as text as well as used in a
+  // mail draft, because many desktop browsers have no mail handler and a mailto: link does nothing.
+  contactEmail: 'uri.kartoun@dbbun.com',
+
   // Konijeti 2017: 6-week staged elimination, then 5-week maintenance. Baseline week and reintroduction are
   // additions (baseline gives a real "before"; reintroduction goes beyond the trial and is labeled as such).
   phases: [

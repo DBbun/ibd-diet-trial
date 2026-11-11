@@ -56,12 +56,14 @@ export function renderAbout(state, ctx = {}) {
 
     <section class="panel feedback">
       <h2 class="h3">Help improve this app</h2>
-      <p>What's missing, confusing, or not right for you? Your feedback is saved on this phone. Tap Share to send it yourself.</p>
+      <p>What's missing, confusing, or not right for you? What you write is saved on this phone. Nothing is sent unless you choose to send it.</p>
       <textarea rows="3" data-input="feedback" placeholder="Your feedback" aria-label="Your feedback">${esc(ctx.feedbackDraft || '')}</textarea>
       <div class="actions left">
         <button type="button" class="btn" data-action="feedback-save">Save</button>
-        <button type="button" class="btn primary" data-action="feedback-share">Share feedback</button>
+        <button type="button" class="btn primary" data-action="feedback-email">Email it to me</button>
+        <button type="button" class="btn" data-action="feedback-share">Share another way</button>
       </div>
+      <p class="small muted">Email opens a draft to <a href="mailto:${esc(CONFIG.contactEmail)}">${esc(CONFIG.contactEmail)}</a> with your words in it; you still decide whether to send. Only what you typed goes in — none of your logged days are attached. If your browser has no mail app, copy that address.</p>
       ${(state.feedback || []).length ? `<p class="small muted">${state.feedback.length} saved note${state.feedback.length === 1 ? '' : 's'} will be included when you share.</p>` : ''}
     </section>
 

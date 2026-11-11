@@ -18,6 +18,12 @@ export async function shareText(title, text) {
   try { await navigator.clipboard.writeText(text); return 'copied'; } catch { return 'failed'; }
 }
 
+// Open the person's own mail app with a draft. Nothing is sent until they tap send, and the app
+// itself still sends nothing: this hands the text to the mail client and stops there.
+export function mailTo(to, subject, body) {
+  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export function esc(s) {
   return String(s ?? '')
     .replaceAll('&', '&amp;')

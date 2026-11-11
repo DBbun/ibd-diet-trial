@@ -2,7 +2,7 @@ import { CONFIG } from './config.js';
 import { addDays } from './dates.js';
 import * as store from './store.js';
 import { buildDemo } from './demo.js';
-import { esc, download, shareText, labName, labUnit } from './ui.js';
+import { esc, download, shareText, mailTo, labName, labUnit } from './ui.js';
 import { renderSetup, ownTests } from './views/setup.js';
 import { renderToday, blankEntry } from './views/today.js';
 import { renderTimeline } from './views/timeline.js';
@@ -114,6 +114,12 @@ function parseValue(v) {
   if (v === 'false') return false;
   if (v !== '' && !Number.isNaN(Number(v))) return Number(v);
   return v;
+}
+
+// The unsent draft plus any notes already saved on this phone, as one block of plain text.
+function feedbackText() {
+  const saved = (state.feedback || []).map((f) => `- ${f.date}: ${f.text}`).join('\n');
+  return [ctx.feedbackDraft.trim(), saved].filter(Boolean).join('\n');
 }
 
 const actions = {
@@ -321,11 +327,16 @@ const actions = {
     toast('Saved on this phone.');
   },
   'feedback-share': async () => {
-    const all = (state.feedback || []).map((f) => `- ${f.date}: ${f.text}`).join('\n');
-    const text = [ctx.feedbackDraft.trim(), all].filter(Boolean).join('\n');
+    const text = feedbackText();
     if (!text) { toast('Write something first.'); return; }
     const r = await shareText(`Feedback on ${CONFIG.appName}`, `Feedback on ${CONFIG.appName}:\n${text}`);
     if (r === 'copied') toast('Copied. Paste it into a message or email.');
+  },
+  'feedback-email': () => {
+    const text = feedbackText();
+    if (!text) { toast('Write something first.'); return; }
+    mailTo(CONFIG.contactEmail, `Feedback on ${CONFIG.appName}`,
+      `${text}\n\n--\nOnly the words above are included. None of your logged days are attached.`);
   },
   print: () => window.print(),
   'export-csv': () => download(`ibd-food-pattern-${store.today(state)}.csv`, toCSV(state), 'text/csv'),
